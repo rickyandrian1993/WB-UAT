@@ -1,9 +1,9 @@
 {
   "name": "weigh-bridge",
   "author": "Wide Agri",
-  "title": "Weigh Bridge System - DEV",
+  "title": "Weigh Bridge System - UAT",
   "version": "1.1.7",
-  "server_url": "https://192.168.110.127:5110",
+  "server_url": "https://wide-wb.incasi.co.id:6121",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
   "homepage": "./",
@@ -70,7 +70,7 @@
       "publish": {
         "provider": "github",
         "owner": "rickyandrian1993",
-        "repo": "WB-DEV",
+        "repo": "WB-UAT",
         "private": true
       },
       "icon": "public/wb.ico"
