@@ -27,8 +27,6 @@ export const endpoints = {
   getMillUser: `${baseAPIUrlLocal}/mill`,
   getRekapData: `${baseAPIUrlLocal}/update-data/rekap-data`,
   getReport: `${baseAPIUrlLocal}/report`,
-  getRekapCommodity: `${baseAPIUrlLocal}/update-data/history-rekap`,
-  getRekapTabel: `${baseAPIUrlLocal}/update-data/history-rekap-supplier`,
   getReportData: `${baseAPIUrlLocal}/report/list`,
   getScaleHistory: `${baseAPIUrlLocal}/history/scale-in`,
   getTimbanganData: `${baseAPIUrlLocalExternal}/get-weigh`,

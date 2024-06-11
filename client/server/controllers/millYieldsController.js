@@ -36,38 +36,6 @@ export const rekapData = async (_, res) => {
   }
 }
 
-const getRekapHistory = async (req, res) => {
-  const getAllScaleHistoryQuery = `
-    SELECT comodity_nm, SUM(netto_w::bigint - cut::bigint) as total_berat, count(case when netto_w > 0 then null else 1 end) as total_kendaraan
-    FROM pcc_mill_yields_activity
-    WHERE wb_arrive_dt::date = now()::date
-    GROUP BY comodity_nm`
-
-  await pool
-    .query(getAllScaleHistoryQuery)
-    .then((result) => res.json({ ...success200, data: result.rows }))
-    .catch((error) => {
-      logToFile(`Error get rekap history: ${error}`)
-      res.status(500).json({ ...error500, data: `Error Get Rekap History: ${error} ` })
-    })
-}
-
-const getRekapHistorySupplier = async (req, res) => {
-  const getAllScaleHistorySupplierQuery = `
-    SELECT supplier, COUNT(cd) as total_kendaraan, SUM(netto_w::bigint - cut::bigint) as total_berat
-    FROM pcc_mill_yields_activity
-    WHERE wb_arrive_dt::date = now()::date AND netto_w > 0
-    GROUP BY supplier`
-
-  await pool
-    .query(getAllScaleHistorySupplierQuery)
-    .then((result) => res.json({ ...success200, data: result.rows }))
-    .catch((error) => {
-      logToFile(`Error get rekap history supplier: ${error}`)
-      res.status(500).json({ ...error500, data: `Error Get Rekap History: ${error} ` })
-    })
-}
-
 const DeleteMillYield = (req, callback) => {
   const { cd } = req
   const query = `SELECT * FROM pcc_mill_yields_activity WHERE cd = '${cd}' limit 1`
@@ -397,7 +365,5 @@ export {
   InsertMillYileds,
   UpdateMillYields,
   checkDuplicate,
-  getDataById,
-  getRekapHistory,
-  getRekapHistorySupplier
+  getDataById
 }

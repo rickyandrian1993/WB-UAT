@@ -21,38 +21,5 @@ export default function RekapitulasiController() {
     )
   }, [])
 
-  const rekapCommodity = useCallback(async (callback) => {
-    ApiService.jsonRequest(
-      endpoints.getRekapCommodity,
-      {},
-      (response) => {
-        if (response.isError)
-          ToastNotification({
-            title: response.isError ? 'Kesalahan' : 'Berhasil',
-            message: response.message,
-            isError: response.isError
-          })
-        else callback(response.data)
-      },
-      []
-    )
-  }, [])
-
-  const rekapTable = useCallback(async (callback) => {
-    ApiService.jsonRequest(
-      endpoints.getRekapTabel,
-      {},
-      (response) => {
-        if (response.isError)
-          ToastNotification({
-            title: response.isError ? 'Kesalahan' : 'Berhasil',
-            message: response.message,
-            isError: response.isError
-          })
-        else callback(response.data)
-      },
-      []
-    )
-  }, [])
-  return { rekapCommodity, rekapTable, rekapData }
+  return { rekapData }
 }
