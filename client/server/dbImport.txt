@@ -1,0 +1,358 @@
+-- public.mt_fingerprint definition
+
+-- Drop table
+
+-- DROP TABLE public.mt_fingerprint;
+
+CREATE TABLE public.mt_fingerprint (
+	cd varchar(40) NOT NULL,
+	nm varchar(40) NOT NULL,
+	role_position varchar(40) NOT NULL,
+	biometric_data text NOT NULL,
+	created_by varchar(40) NULL,
+	created_dt timestamp NULL,
+	CONSTRAINT sys_mt_fingerprint_cd PRIMARY KEY (cd)
+);
+
+
+-- public.mt_vndr_rent_vhcle definition
+
+-- Drop table
+
+-- DROP TABLE public.mt_vndr_rent_vhcle;
+
+CREATE TABLE public.mt_vndr_rent_vhcle (
+	cd varchar(40) NOT NULL,
+	nm varchar(40) NOT NULL,
+	pcc_estate_cd varchar(40) NULL,
+	CONSTRAINT sys_mt_vendor_vhcle_cd PRIMARY KEY (cd)
+);
+
+
+-- public.pcc_app_user definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_app_user;
+
+CREATE TABLE public.pcc_app_user (
+	cd varchar(40) NOT NULL,
+	nm varchar(150) NULL,
+	pcc_estate_cd varchar(40) NULL,
+	biometric text NULL,
+	CONSTRAINT sys_pcc_app_user_cd PRIMARY KEY (cd)
+);
+
+
+-- public.pcc_app_user_access definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_app_user_access;
+
+CREATE TABLE public.pcc_app_user_access (
+	cd varchar(40) NOT NULL,
+	pcc_app_user_cd varchar(40) NULL,
+	mt_app_section_cd varchar(40) NULL,
+	CONSTRAINT sys_pcc_app_user_access_cd PRIMARY KEY (cd)
+);
+
+
+-- public.pcc_app_user_pass definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_app_user_pass;
+
+CREATE TABLE public.pcc_app_user_pass (
+	pcc_app_user_cd varchar(40) NOT NULL,
+	"password" varchar(100) NULL,
+	created_dt timestamp NULL,
+	pcc_estate_cd varchar(40) NULL,
+	CONSTRAINT sys_pcc_app_user_pass_cd PRIMARY KEY (pcc_app_user_cd)
+);
+
+
+-- public.pcc_customer definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_customer;
+
+CREATE TABLE public.pcc_customer (
+	cd varchar(40) NOT NULL,
+	nm varchar(40) NULL,
+	CONSTRAINT sys_pcc_customer_cd PRIMARY KEY (cd)
+);
+
+
+-- public.pcc_estate definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_estate;
+
+CREATE TABLE public.pcc_estate (
+	cd varchar(40) NOT NULL,
+	nm varchar(100) NULL,
+	created_dt timestamp NULL,
+	CONSTRAINT sys_pccestate_cd PRIMARY KEY (cd)
+);
+
+
+-- public.pcc_estate_level definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_estate_level;
+
+CREATE TABLE public.pcc_estate_level (
+	cd varchar(40) NOT NULL,
+	estate_cd varchar(40) NULL,
+	divisi_cd varchar(40) NULL,
+	section_cd varchar(40) NULL,
+	subblock_cd varchar(40) NULL,
+	shelf_from numeric(5) NULL,
+	shelf_to numeric(5) NULL,
+	tph_from numeric(5) NULL,
+	tph_to numeric(5) NULL,
+	created_dt timestamp NULL,
+	CONSTRAINT sys_pccestate_level_cd PRIMARY KEY (cd)
+);
+CREATE INDEX pcc_estate_level_estate_cd_idx ON public.pcc_estate_level USING btree (estate_cd, divisi_cd, section_cd, subblock_cd);
+
+
+-- public.pcc_evacuation_activity_dtl definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_evacuation_activity_dtl;
+
+CREATE TABLE public.pcc_evacuation_activity_dtl (
+	cd varchar(40) NOT NULL,
+	pcc_estate_cd varchar(40) NULL,
+	pcc_estate_level_cd varchar(40) NULL,
+	pcc_evacuation_activity_cd varchar(40) NULL,
+	pcc_harvas_or_evact_cd varchar(40) NULL,
+	pcc_harvaster_nfc_id varchar(40) NULL,
+	created_by varchar(40) NULL,
+	created_dt timestamp NULL,
+	updated_by varchar(40) NULL,
+	updated_dt timestamp NULL,
+	is_delete varchar(1) NULL,
+	is_inactive varchar(1) NULL,
+	bunch_amount numeric(7, 2) NULL,
+	brondolan numeric(7, 2) NULL,
+	mbl_updated_dt timestamp NULL,
+	mbl_updated_by varchar(40) NULL,
+	pcc_mill_cd varchar(40) NULL,
+	is_from_tph varchar(1) NULL,
+	upload_flag varchar NOT NULL DEFAULT 'N'::character varying,
+	wb_arrive_dt timestamp NULL,
+	CONSTRAINT sys_pcc_evacuation_activity_dtl_cd PRIMARY KEY (cd)
+);
+CREATE INDEX pcc_evacuation_activity_dtl_created_dt_idx ON public.pcc_evacuation_activity_dtl USING btree (created_dt, updated_dt);
+CREATE INDEX pcc_evacuation_activity_dtl_pcc_estate_cd_idx ON public.pcc_evacuation_activity_dtl USING btree (pcc_estate_cd, pcc_estate_level_cd, pcc_evacuation_activity_cd, pcc_harvas_or_evact_cd, pcc_harvaster_nfc_id, created_by, updated_by);
+
+
+-- public.pcc_mill definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_mill;
+
+CREATE TABLE public.pcc_mill (
+	cd varchar(40) NOT NULL,
+	nm varchar(100) NOT NULL,
+	mill_manager varchar NULL,
+	last_update timestamp NULL,
+	"password" varchar(40) NOT NULL
+);
+
+
+-- public.pcc_mill_dtl definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_mill_dtl;
+
+CREATE TABLE public.pcc_mill_dtl (
+	cd varchar(40) NULL,
+	pcc_mill_cd varchar(40) NULL,
+	pcc_estate_cd varchar(40) NULL,
+	pcc_estate_nm varchar(100) NULL
+);
+
+
+-- public.pcc_mill_yields_activity definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_mill_yields_activity;
+
+CREATE TABLE public.pcc_mill_yields_activity (
+	cd varchar(40) NOT NULL,
+	pcc_evacuation_activity_cd varchar(40) NULL,
+	pcc_estate_cd varchar(40) NULL,
+	pcc_estate_level_cd varchar(40) NULL,
+	pcc_wrkr_cd_loader varchar(40) NULL,
+	pcc_wrkr_cd_driver varchar(40) NULL,
+	pcc_vehicle_cd varchar(40) NULL,
+	mt_comodity_cd varchar(40) NULL,
+	seal_number varchar(40) NULL,
+	latitude numeric(11, 8) NULL,
+	longitude numeric(11, 8) NULL,
+	nfc_id varchar(40) NULL,
+	created_by varchar(40) NULL,
+	created_dt timestamp NULL,
+	updated_by varchar(40) NULL,
+	updated_dt timestamp NULL,
+	is_delete varchar(1) NULL,
+	is_inactive varchar(1) NULL,
+	is_from_tph varchar(1) NULL,
+	lefted numeric(12, 2) NULL,
+	mt_vndr_rent_vhcle_cd varchar(40) NULL,
+	netto_w numeric(12, 2) NULL,
+	first_w numeric(12, 2) NULL,
+	second_w numeric(12, 2) NULL,
+	wb_arrive_dt timestamp NULL,
+	mill_arrive_dt timestamp NULL,
+	pcc_evac_prnt_actv_cd varchar(40) NULL,
+	total_bunch numeric(9, 2) NULL,
+	total_brondolan numeric(9, 2) NULL,
+	overripe_brondolan numeric(7, 2) NULL,
+	garbage numeric(7, 2) NULL,
+	sand_fruit numeric(7, 2) NULL,
+	water numeric(7, 2) NULL,
+	nfc_received_dt timestamp NULL,
+	nfc_received varchar(1) NULL,
+	fresh_fruit numeric(7, 2) NULL,
+	young_fruit numeric(7, 2) NULL,
+	overripe_fruit numeric(7, 2) NULL,
+	janjang_kosong numeric(7, 2) NULL,
+	long_stalk numeric(7, 2) NULL,
+	pcc_mill_cd varchar(40) NULL,
+	is_lefted varchar(1) NULL,
+	img1 varchar(40) NULL,
+	img2 varchar(40) NULL,
+	img3 varchar(40) NULL,
+	img1_desc varchar(120) NULL,
+	img2_desc varchar(120) NULL,
+	img3_desc varchar(120) NULL,
+	restan_overnight numeric(7, 2) NULL,
+	wb_created_by varchar(40) NULL,
+	wb_created_dt timestamp NULL,
+	comodity_nm varchar NULL,
+	estate_nm varchar NULL,
+	afdeling_nm varchar NULL,
+	ekspedisi_nm varchar NULL,
+	mill_nm varchar NULL,
+	block_nm varchar NULL,
+	driver_nm varchar NULL,
+	loader_nm varchar(40) NULL,
+	cut numeric(7, 2) NULL,
+	after_cut numeric(7, 2) NULL,
+	bjr numeric(7, 2) NULL,
+	grading_brondolan numeric(12, 2) NULL,
+	fresh_fruit_kg numeric(7, 2) NULL,
+	overripe_fruit_kg numeric(7, 2) NULL,
+	young_fruit_kg numeric(7, 2) NULL,
+	long_stalk_kg numeric(7, 2) NULL,
+	janjang_kosong_kg numeric(7, 2) NULL,
+	water_kg numeric(7, 2) NULL,
+	grading_brondolan_kg numeric(7, 2) NULL,
+	overripe_brondolan_kg numeric(7, 2) NULL,
+	restan_overnight_kg numeric(7, 2) NULL,
+	garbage_kg numeric(7, 2) NULL,
+	sand_fruit_kg numeric(7, 2) NULL,
+	disortasi_worker_cd varchar(40) NULL,
+	upload_flag varchar NOT NULL DEFAULT 'N'::character varying,
+	ffa numeric(7, 2) NULL,
+	moist numeric(7, 2) NULL,
+	pv numeric(7, 2) NULL,
+	dirt numeric(7, 2) NULL,
+	dobi numeric(7, 2) NULL,
+	pcc_customer_cd varchar(40) NULL,
+	do_number varchar(40) NULL,
+	spb_number varchar(40) NULL,
+	do_date timestamp NULL,
+	spb_date timestamp NULL,
+	remark1 varchar(200) NULL,
+	first_update timestamp NULL,
+	pcc_wrkr_cd_loader_2 varchar(40) NULL,
+	pcc_wrkr_cd_loader_3 varchar(40) NULL,
+	loader_nm_2 varchar(40) NULL,
+	loader_nm_3 varchar(40) NULL,
+	pcc_mill_is_load_st varchar(40) NULL,
+	total_loaded_nfc varchar(40) NULL,
+	block_nm2 varchar(40) NULL,
+	block_nm3 varchar(40) NULL,
+	pcc_estate_level_cd2 varchar(40) NULL,
+	pcc_estate_level_cd3 varchar(40) NULL,
+	contract varchar(40) NULL,
+	supplier varchar(40) NULL,
+	grade_class varchar(5) NULL,
+	spb_weight numeric(7, 2) NULL,
+	farmer varchar(40) NULL,
+	weight_gap numeric(7) NULL
+);
+CREATE UNIQUE INDEX pcc_mill_yields_activity_cd_idx ON public.pcc_mill_yields_activity USING btree (cd);
+
+
+-- public.pcc_vehicle definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_vehicle;
+
+CREATE TABLE public.pcc_vehicle (
+	cd varchar(40) NOT NULL,
+	created_by varchar(40) NULL,
+	created_dt timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+	pcc_estate_cd varchar(40) NULL,
+	CONSTRAINT sys_pcc_vehicle_cd PRIMARY KEY (cd)
+);
+
+
+-- public.pcc_worker definition
+
+-- Drop table
+
+-- DROP TABLE public.pcc_worker;
+
+CREATE TABLE public.pcc_worker (
+	cd varchar(40) NOT NULL,
+	pcc_estate_cd varchar(40) NULL,
+	nm varchar(150) NULL,
+	CONSTRAINT sys_pccestate_worker_cd PRIMARY KEY (cd)
+);
+
+
+-- public.serialport definition
+
+-- Drop table
+
+-- DROP TABLE public.serialport;
+
+CREATE TABLE public.serialport (
+	baudrate int4 NULL,
+	databits int4 NULL,
+	stopbits int4 NULL,
+	parity varchar(50) NULL,
+	"path" varchar NULL
+);
+
+
+-- public.supplier definition
+
+-- Drop table
+
+-- DROP TABLE public.supplier;
+
+CREATE TABLE public.supplier (
+	cd varchar(40) NOT NULL,
+	name varchar(40) NOT NULL,
+	created_at timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+	created_by varchar(40) NULL,
+	CONSTRAINT supplier_pk PRIMARY KEY (cd)
+);

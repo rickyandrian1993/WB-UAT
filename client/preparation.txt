@@ -1,0 +1,30 @@
+
+
+Hardware requirement
+--------------------------
+1. PC Windows 10 Home
+2. UGREEN RS232 to usb
+3. Finger print Digital persona UR-U-4500
+
+
+Software build
+---------------------------------
+0. npm using Node 1816
+1. build server external / read weigh indicator and nfc
+   1. copy server/externalComponent/* to server/external
+   2. cd server/external
+   3. npm install
+2. build webservice / for CRUD service
+   1. cd server/webservice
+   2. npm install
+   3. npm run build
+   4. output bundle is in <root folder>/build-server
+3. at root folder
+   1. npm install
+   2. set NODE_OPTIONS=--openssl-legacy-provider
+   3. npm run react-build
+   4. npm run electron-pack
+   5. output in folder dist
+
+
+

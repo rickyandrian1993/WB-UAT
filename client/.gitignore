@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+build-server
+.idea
+package-lock.json
+
+./server/webservice/node_modules
+./server/webservice/package-lock.json
+./server/external/.dist
+./server/external/node_modules
+./server/external/package-lock.json
+./server/timbangan/.dist
+./server/timbangan/node_modules
+./server/timbangan/package-lock.json
+server/external/.dist/external.exe
