@@ -79,6 +79,10 @@ function NavHeader() {
           <i className="ri-refresh-line"></i>
           Upload
         </NavLink>
+        {/* <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/editor">
+          <i className="ri-edit-box-line"></i>
+          Editor
+        </NavLink> */}
       </Group>
       <Group className="info">
         <Clock />

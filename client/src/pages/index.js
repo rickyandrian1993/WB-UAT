@@ -1,8 +1,9 @@
-import Login from './login/Login'
-import Print from './report/print/Print'
-import Report from './report/Report'
-import SyncPage from './sync/Sync'
-import Commodity from './oneForm/Commodity'
+import Editor from './editor'
 import History from './history'
+import Login from './login/Login'
+import Commodity from './oneForm/Commodity'
+import Report from './report/Report'
+import Print from './report/print/Print'
+import SyncPage from './sync/Sync'
 
-export { Commodity, History, Login, Print, Report, SyncPage }
+export { Commodity, Editor, History, Login, Print, Report, SyncPage }

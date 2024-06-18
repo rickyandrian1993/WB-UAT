@@ -123,13 +123,16 @@ const duplicateCheck = async (cd) => {
 }
 
 export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
+  const { nfc_id, nfc_payload } = data
   const { mill } = getStore('mill')
-  const result = []
-  const parent = data.split('|')[0]
+
+  const parent = nfc_payload.split('|')[0]
   const dataParent = parent.split(';')
+  const result = []
 
   const nfcIndicator = dataParent[0]
   const pcc_mill_cd = dataParent[9]
+
   if (nfcIndicator !== '33' && nfcIndicator !== '34')
     ToastNotification({
       title: 'NFC Error',
@@ -143,13 +146,12 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
       isError: true
     })
   } else if (nfcIndicator === '33' && !isGrading) {
-    const childData = []
-    const child = data.split('|')[1]
-    const dataChild = child.split(';')
-
     const isDupp = await duplicateCheck(dataParent[1])
-
     if (!isDupp) {
+      const childData = []
+      const child = nfc_payload.split('|')[1]
+      const dataChild = child.split(';')
+
       const childDataLength = child.split('~')
       for (let i = 0; i < childDataLength.length; i++) {
         const splitData = childDataLength[i].split(';')
@@ -167,7 +169,7 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
         })
       }
       result.push({
-        nfc_id: dataParent[0],
+        nfc_id: nfc_id,
         pcc_evacuation_activity_cd: dataParent[1],
         pcc_evac_prnt_actv_cd: dataParent[2],
         pcc_estate_cd: dataParent[3],
@@ -226,7 +228,7 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
     } else {
       ToastNotification({
         title: 'NFC Error',
-        message: 'Kartu NFC Evakuasi tidak sesuai!',
+        message: 'Kartu NFC Grading tidak sesuai!',
         isError: true
       })
     }

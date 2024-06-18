@@ -1,8 +1,8 @@
-import express from 'express'
 import cors from 'cors'
-import router from './routers.js'
+import express from 'express'
 import cron from 'node-cron'
 import { AutoUpload } from './controllers/autoUpload.js'
+import router from './routers.js'
 
 // Schedule a task to run at 2:30 PM every day
 cron.schedule('00 19 * * *', () => {
@@ -24,17 +24,12 @@ cron.schedule('00 19 * * *', () => {
   AutoUpload()
 })
 
-const corsOptions = {
-  origin: true,
-  credentials: true
-}
-
 const app = express()
 const port = 3335
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors(corsOptions))
+app.use(cors())
 app.use('/', router)
 
 app.listen(port, () => console.info(`Server is up and running on port: ${port}`))

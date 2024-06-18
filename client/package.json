@@ -8,15 +8,13 @@
   "main": "./main.js",
   "homepage": "./",
   "scripts": {
-    "start": "concurrently \"npm run server\"  \"npm run external\" \"npm run react-start\" \"wait-on http://localhost:3000 && npm run electron-dev\"",
-    "server-start": "nodemon --watch server server/index.js",
-    "server": "cd server/webservice && nodemon index",
-    "external": "cd server/external && nodemon index",
+    "start": "concurrently \"npm run server\" \"npm run react-start\" \"wait-on http://localhost:3000 && npm run electron-dev\"",
+    "server": "cd server && nodemon index",
     "react-build": "react-app-rewired build",
     "react-start": "cross-env BROWSER=none react-app-rewired start",
     "electron-dev": "node scripts/dev.js scripts/start.js",
     "electron-pack": "electron-builder -c.extraMetadata.main='./main.js'",
-    "bp": "concurrently \"npm run server\"  \"npm run external\" \"npm run react-build && npm run electron-dev\"",
+    "bp": "concurrently \"npm run server\" \"npm run react-build && npm run electron-dev\"",
     "deploy": "npm run react-build && electron-builder -c.extraMetadata.main='./main.js' build --win --publish always"
   },
   "devDependencies": {

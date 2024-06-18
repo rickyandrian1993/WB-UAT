@@ -5,6 +5,7 @@ const label = {
   comodity_nm: 'Komoditi',
   estate_nm: 'Estate',
   block_nm: 'Subblock',
+  ticket: 'No. Ticket',
   pcc_vehicle_cd: 'No. Polisi',
   driver_nm: 'Nama Supir',
   first_w: 'Timbangan Pertama',

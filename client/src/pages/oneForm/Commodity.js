@@ -1,8 +1,7 @@
-import { Divider, Loader, Modal } from '@mantine/core'
+import { Divider } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import React, { useEffect, useState } from 'react'
 import { ColGrid, FormBox, ScaleGrid } from '../../assets/style/styled'
-import { ButtonWB, ScaleDisplay } from '../../components'
 import { initialValues } from '../../constants'
 import { allTrue, disableGenerator } from '../../helpers/disableList'
 import submiter from '../../helpers/submiter'
@@ -17,6 +16,7 @@ import {
   VendorController
 } from '../../services'
 import { DataTambahan, DataUmum, Grading, HeaderForm, Kualitas, Rekapitulasi } from './Sections'
+import { ButtonActions, DisplayTimbangan, ModalTimbangan } from './components'
 
 const Commodity = () => {
   const form = useForm(initialValues)
@@ -124,44 +124,13 @@ const Commodity = () => {
 
   return (
     <>
-      <Modal opened={opened} onClose={() => {}} withCloseButton={false} centered>
-        <div style={{ display: 'grid', placeItems: 'center', fontSize: '4rem', fontWeight: '700' }}>
-          {timbangan ? (
-            <span style={{ color: '#363636' }}>{timbangan} KG</span>
-          ) : (
-            <Loader color="#000" variant="oval" />
-          )}
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '20px',
-            marginTop: '20px'
-          }}
-        >
-          <ButtonWB
-            fullWidth
-            color="green"
-            size="sm"
-            leftIcon={<i className="ri-check-line" />}
-            onClick={() => setOpened(false)}
-          >
-            OK
-          </ButtonWB>
-          <ButtonWB
-            fullWidth
-            variant="outline"
-            size="sm"
-            leftIcon={<i className="ri-truck-line" />}
-            onClick={readTimbangan}
-            disabled={readTimbanganLoading}
-          >
-            {readTimbanganLoading ? <Loader color="#fff" variant="bars" /> : 'TIMBANG ULANG'}
-          </ButtonWB>
-        </div>
-      </Modal>
+      <ModalTimbangan
+        isOpen={opened}
+        setIsOpen={() => setOpened(false)}
+        weight={timbangan}
+        loading={readTimbanganLoading}
+        readWeight={readTimbangan}
+      />
 
       <FormBox onSubmit={form.onSubmit(submitHandler)}>
         <ScaleGrid gutter={'md'} justify="space-between" align="start">
@@ -192,65 +161,22 @@ const Commodity = () => {
             />
             <ScaleGrid>
               <Divider />
-              <ColGrid span={6}>
-                <ButtonWB
-                  fullWidth
-                  variant="outline"
-                  size="sm"
-                  color="red"
-                  leftIcon={<i className="ri-format-clear" />}
-                  disabled={loading}
-                  onClick={() => {
-                    form.reset()
-                    setDisableList(allTrue)
-                  }}
-                >
-                  BERSIHKAN
-                </ButtonWB>
-              </ColGrid>
-              <ColGrid span={6}>
-                <ButtonWB
-                  fullWidth
-                  variant="outline"
-                  size="sm"
-                  leftIcon={<i className="ri-sim-card-2-line" />}
-                  onClick={nfcReader}
-                  disabled={readTimbanganLoading || disableList.nfc_button || loading || loadingNfc}
-                >
-                  {loadingNfc ? <Loader variant="bars" color="#fff" /> : 'NFC'}
-                </ButtonWB>
-              </ColGrid>
-              <ColGrid span={6}>
-                <ButtonWB
-                  fullWidth
-                  variant="outline"
-                  size="sm"
-                  leftIcon={<i className="ri-truck-line" />}
-                  onClick={readTimbangan}
-                  disabled={loading || readTimbanganLoading}
-                >
-                  {readTimbanganLoading ? <Loader color="#fff" variant="bars" /> : 'TIMBANG'}
-                </ButtonWB>
-              </ColGrid>
-              <ColGrid span={6}>
-                <ButtonWB
-                  fullWidth
-                  variant="outline"
-                  color="green"
-                  size="sm"
-                  disabled={loading}
-                  type="submit"
-                  leftIcon={<i className="ri-save-line" />}
-                >
-                  SIMPAN
-                </ButtonWB>
-              </ColGrid>
+              <ButtonActions
+                disableList={disableList}
+                form={form}
+                loading={loading}
+                loadingNfc={loadingNfc}
+                nfcReader={nfcReader}
+                readTimbangan={readTimbangan}
+                readTimbanganLoading={readTimbanganLoading}
+                setDisableList={setDisableList}
+              />
             </ScaleGrid>
           </ColGrid>
           <ColGrid span={7} leftdivider="true">
             <ScaleGrid>
               <Divider label="Data Timbangan" />
-              <ScaleDisplay type="scale-out" form={form} />
+              <DisplayTimbangan form={form} type={'scale-out'} />
               <ColGrid span={12}>
                 <Grading form={form} disableList={disableList} />
               </ColGrid>

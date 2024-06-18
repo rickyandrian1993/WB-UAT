@@ -52,6 +52,7 @@ export default function TbsIntiRincian({ data, payloads: { payload } }) {
                     <thead>
                       <tr>
                         <th>No</th>
+                        <th>Ticket No.</th>
                         <th>Tanggal</th>
                         <th>Divisi</th>
                         <th>Afdeling</th>
@@ -72,6 +73,7 @@ export default function TbsIntiRincian({ data, payloads: { payload } }) {
                         return (
                           <tr key={`all-${i}`}>
                             <td align="center">{i + 1}</td>
+                            <td align="center">{item.ticket || '-'}</td>
                             <td align="center">
                               {moment(item.mill_arrive_dt).format('DD/MM/YYYY')}
                             </td>

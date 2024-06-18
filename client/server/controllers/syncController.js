@@ -222,6 +222,7 @@ const mappingEvacData = async (sess, item) => {
 }
 
 const sendingDataToServer = async (sess, url, data, batch, maxBatch, type) => {
+  // NEED FIXING, IF DUPLICATE DATA FROM SERVER. REMOVE CD DUPLICATE THEN SEND AGAIN //
   try {
     const { userCd, estate } = sess
     const payload = {
@@ -246,6 +247,10 @@ const sendingDataToServer = async (sess, url, data, batch, maxBatch, type) => {
       .then((e) => {
         logToFile(`===RESPONSE UPLOAD DATA SERVER===: ${JSON.stringify(e.data)}`)
         logToFile(`===PAYLOAD===: ${JSON.stringify(payload)}`)
+        // IF ERROR RESPONSE DUPLICATE,
+        // TAMPUNG ID UBAH FLAG UPLOAD,
+        // KEMUDIAN KIRIM ERROR KE USER BUAT TEKAN UPLOAD ULANG
+        // DIMANA KONDISINYA CD YG DUPLICATE TIDAK DIKIRIM LAGI KESERVER
         const uploadedData = data[batch - 1].map((item) => {
           return type === 'mill' ? item.cd : item.pcc_evacuation_activity_cd
         })

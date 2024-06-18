@@ -3,7 +3,7 @@ import axios from 'axios'
 const ApiService = {
   jsonRequest: async (url, payload = {}, callback) => {
     await axios
-      .post(url, payload, { withCredentials: true })
+      .post(url, payload)
       .then(({ data }) => callback(data))
       .catch((error) => {
         callback({

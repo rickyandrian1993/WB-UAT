@@ -81,8 +81,7 @@ const getAllReportToday = (res, params) => {
 const getReportTbs = (res, params) => {
   const { commodity, startDate, endDate, supplier, estate } = params
   const query = `
-    SELECT
-      comodity_nm, supplier, cut, mill_arrive_dt,
+    SELECT ticket, comodity_nm, supplier, cut, mill_arrive_dt,
       first_update, first_w, do_number, spb_number,
       second_w, netto_w, total_bunch as tandan, ekspedisi_nm,
       do_date, pcc_vehicle_cd, pmya.pcc_estate_level_cd,
